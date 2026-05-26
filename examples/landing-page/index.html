@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es"
+  agentic-role="page"
+  agentic-entity="site.acg-consulting"
+  agentic-purpose="lead-generation"
+  agentic-context="ai-consulting-website">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ACG · Agentic Test Page</title>
+</head>
+
+<body agentic-role="document" agentic-context="public-business-website">
+
+  <header
+    agentic-role="navigation"
+    agentic-entity="navigation.main"
+    agentic-purpose="guide-user-through-site"
+    agentic-priority="high">
+
+    <h1>Artur Creative Group</h1>
+
+    <nav agentic-role="navigation" agentic-context="primary-navigation">
+      <a href="#services" agentic-action="navigate" agentic-entity="section.services">Servicios</a>
+      <a href="#pricing" agentic-action="navigate" agentic-entity="section.pricing">Planes</a>
+      <a href="#contact" agentic-action="navigate" agentic-entity="section.contact">Contacto</a>
+    </nav>
+  </header>
+
+  <main agentic-role="main" agentic-entity="page.home" agentic-purpose="present-business-offer">
+
+    <section
+      agentic-role="hero"
+      agentic-entity="offer.ai-consulting"
+      agentic-purpose="introduce-main-value-proposition"
+      agentic-priority="critical">
+
+      <h2>Consultoría IA para negocios modernos</h2>
+
+      <p agentic-purpose="describe-benefit">
+        Ayudamos a pequeñas empresas, freelancers y marcas personales a implementar IA, automatización y sistemas digitales simples.
+      </p>
+
+      <button
+        agentic-action="request-consultation"
+        agentic-context="lead-capture"
+        agentic-policy="requires-human-confirmation"
+        agentic-priority="high">
+        Solicitar consultoría
+      </button>
+    </section>
+
+    <section
+      id="services"
+      agentic-role="section"
+      agentic-entity="section.services"
+      agentic-purpose="present-available-services">
+
+      <h2>Servicios</h2>
+
+      <article
+        agentic-role="service"
+        agentic-entity="service.ai-automation"
+        agentic-purpose="service-presentation">
+
+        <h3>Automatización con IA</h3>
+
+        <p agentic-purpose="describe-service">
+          Creamos flujos automáticos para reducir tareas repetitivas y mejorar procesos internos.
+        </p>
+
+        <button
+          agentic-action="open-service-detail"
+          agentic-context="service-discovery"
+          agentic-entity="service.ai-automation"
+          agentic-policy="public">
+          Ver detalles
+        </button>
+      </article>
+
+      <article
+        agentic-role="service"
+        agentic-entity="service.custom-crm"
+        agentic-purpose="service-presentation">
+
+        <h3>CRM a medida</h3>
+
+        <p agentic-purpose="describe-service">
+          Diseñamos sistemas simples para organizar clientes, oportunidades y seguimiento comercial.
+        </p>
+
+        <button
+          agentic-action="open-service-detail"
+          agentic-context="service-discovery"
+          agentic-entity="service.custom-crm"
+          agentic-policy="public">
+          Ver detalles
+        </button>
+      </article>
+
+      <article
+        agentic-role="service"
+        agentic-entity="service.digital-design"
+        agentic-purpose="service-presentation">
+
+        <h3>Diseño digital</h3>
+
+        <p agentic-purpose="describe-service">
+          Creamos interfaces, landing pages y experiencias visuales para marcas digitales.
+        </p>
+
+        <button
+          agentic-action="open-service-detail"
+          agentic-context="service-discovery"
+          agentic-entity="service.digital-design"
+          agentic-policy="public">
+          Ver detalles
+        </button>
+      </article>
+    </section>
+
+    <section
+      id="pricing"
+      agentic-role="pricing"
+      agentic-entity="section.pricing"
+      agentic-purpose="compare-service-plans">
+
+      <h2>Planes orientativos</h2>
+
+      <article
+        agentic-role="plan"
+        agentic-entity="plan.starter"
+        agentic-purpose="present-pricing-option">
+
+        <h3>Starter</h3>
+        <p agentic-purpose="display-price">Desde 300€</p>
+        <p>Ideal para validar una idea o automatización pequeña.</p>
+
+        <button
+          agentic-action="select-plan"
+          agentic-entity="plan.starter"
+          agentic-context="pricing-selection"
+          agentic-policy="requires-human-confirmation">
+          Elegir Starter
+        </button>
+      </article>
+
+      <article
+        agentic-role="plan"
+        agentic-entity="plan.growth"
+        agentic-purpose="present-pricing-option">
+
+        <h3>Growth</h3>
+        <p agentic-purpose="display-price">Desde 900€</p>
+        <p>Ideal para empresas que quieren automatizar procesos completos.</p>
+
+        <button
+          agentic-action="select-plan"
+          agentic-entity="plan.growth"
+          agentic-context="pricing-selection"
+          agentic-policy="requires-human-confirmation">
+          Elegir Growth
+        </button>
+      </article>
+    </section>
+
+    <section
+      agentic-role="faq"
+      agentic-entity="section.faq"
+      agentic-purpose="answer-common-questions">
+
+      <h2>Preguntas frecuentes</h2>
+
+      <article agentic-role="question" agentic-entity="faq.ai-cost">
+        <h3>¿La IA reemplaza a mi equipo?</h3>
+        <p>No. La idea es reducir tareas repetitivas y liberar tiempo para trabajo más estratégico.</p>
+      </article>
+
+      <article agentic-role="question" agentic-entity="faq.delivery-time">
+        <h3>¿Cuánto tarda un proyecto?</h3>
+        <p>Depende del alcance. Primero se realiza una fase de diagnóstico.</p>
+      </article>
+    </section>
+
+    <section
+      id="contact"
+      agentic-role="form"
+      agentic-entity="form.consultation-request"
+      agentic-purpose="capture-qualified-lead"
+      agentic-context="lead-capture"
+      agentic-flow="flow.request-consultation"
+      agentic-policy="requires-human-confirmation">
+
+      <h2>Solicitar diagnóstico</h2>
+
+      <form>
+        <label>
+          Nombre
+          <input
+            type="text"
+            name="name"
+            agentic-step="1"
+            agentic-purpose="collect-user-name"
+            agentic-policy="personal-data" />
+        </label>
+
+        <label>
+          Email
+          <input
+            type="email"
+            name="email"
+            agentic-step="2"
+            agentic-purpose="collect-user-email"
+            agentic-policy="personal-data" />
+        </label>
+
+        <label>
+          Tipo de proyecto
+          <select
+            name="project_type"
+            agentic-step="3"
+            agentic-purpose="collect-project-type">
+            <option>Automatización IA</option>
+            <option>CRM a medida</option>
+            <option>Diseño digital</option>
+          </select>
+        </label>
+
+        <label>
+          Mensaje
+          <textarea
+            name="message"
+            agentic-step="4"
+            agentic-purpose="collect-user-need"
+            agentic-policy="user-provided-content"></textarea>
+        </label>
+
+        <button
+          type="submit"
+          agentic-action="submit-form"
+          agentic-step="5"
+          agentic-context="lead-capture"
+          agentic-policy="requires-human-confirmation">
+          Enviar solicitud
+        </button>
+      </form>
+    </section>
+
+    <section
+      agentic-role="modal"
+      agentic-entity="modal.service-detail"
+      agentic-purpose="display-contextual-service-information"
+      agentic-state="inactive">
+
+      <h2>Detalle del servicio</h2>
+      <p>Este modal muestra información ampliada sobre el servicio seleccionado.</p>
+
+      <button
+        agentic-action="close-modal"
+        agentic-context="modal-navigation"
+        agentic-policy="public">
+        Cerrar
+      </button>
+    </section>
+
+  </main>
+
+  <footer
+    agentic-role="footer"
+    agentic-entity="organization.artur-creative-group"
+    agentic-purpose="identify-ownership">
+
+    <p>Artur Creative Group · Human First, Agent Ready.</p>
+
+    <a
+      href="/agentic.json"
+      agentic-action="download-file"
+      agentic-entity="file.agentic-json"
+      agentic-policy="public">
+      agentic.json
+    </a>
+
+    <a
+      href="/agentic-map.json"
+      agentic-action="download-file"
+      agentic-entity="file.agentic-map"
+      agentic-policy="public">
+      agentic-map.json
+    </a>
+
+    <a
+      href="/agentic-skills.md"
+      agentic-action="download-file"
+      agentic-entity="file.agentic-skills"
+      agentic-policy="public">
+      agentic-skills.md
+    </a>
+  </footer>
+
+</body>
+</html>

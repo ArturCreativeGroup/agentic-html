@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="es" agentic-role="page" agentic-entity="protocol.agentic-html" agentic-purpose="single-file-protocol-documentation" agentic-context="official-web-app">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Documentación oficial experimental de Agentic HTML Protocol en una sola página funcional con navegación interna y paneles modales." />
+  <meta name="author" content="Artur Creative Group" />
+
+  <link rel="agentic" href="#agentic-json" />
+  <link rel="agentic-map" href="#agentic-map-json" />
+  <link rel="agentic-skills" href="#agentic-skills-md" />
+  <link rel="llms" href="#llms-txt" />
+
+  <title>Agentic HTML Protocol · Documentation App</title>
+
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --surface: #ffffff;
+      --surface-soft: #f3f0e8;
+      --surface-code: #151515;
+      --border: #e0dbce;
+      --border-strong: #cbc3b2;
+      --text: #24211d;
+      --muted: #6d665b;
+      --muted-light: #948b7c;
+      --accent: #6d55ff;
+      --accent-soft: #eeeaff;
+      --accent-line: #cfc6ff;
+      --success: #27785b;
+      --warning: #9d6b18;
+      --danger: #a43c3c;
+      --radius: 16px;
+      --radius-sm: 10px;
+      --shadow: 0 24px 70px rgba(35, 30, 20, 0.10);
+      --sidebar: 284px;
+      --panel: 420px;
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(109,85,255,.10), transparent 35%),
+        linear-gradient(180deg, #fbfaf7, #f7f3eb 100%);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    a, button { font: inherit; }
+    a { color: inherit; text-decoration: none; }
+    button { border: 0; cursor: pointer; }
+
+    .app-topbar {
+      position: sticky;
+      top: 0;
+      z-index: 40;
+      height: 64px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(251, 250, 247, .88);
+      backdrop-filter: blur(18px);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 22px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 780;
+      letter-spacing: -0.025em;
+    }
+
+    .brand-mark {
+      width: 30px;
+      height: 30px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #1f1d19, #6d55ff);
+      box-shadow: inset 0 0 0 1px rgba(255,255,255,.42), 0 8px 18px rgba(109,85,255,.18);
+    }
+
+    .top-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .search-pill {
+      width: min(320px, 34vw);
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: 999px;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      box-shadow: 0 2px 8px rgba(35,30,20,.04);
+    }
+
+    .kbd {
+      border: 1px solid var(--border-strong);
+      border-bottom-width: 2px;
+      border-radius: 7px;
+      padding: 1px 6px;
+      font-size: 12px;
+      color: var(--muted-light);
+      background: var(--surface-soft);
+    }
+
+    .app-shell {
+      display: grid;
+      grid-template-columns: var(--sidebar) minmax(0, 1fr) var(--panel);
+      min-height: calc(100vh - 64px);
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 64px;
+      height: calc(100vh - 64px);
+      overflow: auto;
+      border-right: 1px solid var(--border);
+      padding: 26px 18px;
+      background: rgba(251, 250, 247, .52);
+    }
+
+    .sidebar-title {
+      color: var(--muted-light);
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      font-weight: 800;
+      margin: 22px 10px 8px;
+    }
+
+    .nav-button {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-radius: 11px;
+      padding: 9px 10px;
+      color: var(--muted);
+      font-size: 14px;
+      text-align: left;
+      background: transparent;
+    }
+
+    .nav-button:hover,
+    .nav-button.active {
+      background: var(--surface-soft);
+      color: var(--text);
+    }
+
+    .nav-button .dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      opacity: 0;
+    }
+
+    .nav-button.active .dot { opacity: 1; }
+
+    .main {
+      width: 100%;
+      max-width: 920px;
+      padding: 56px 56px 96px;
+    }
+
+    .eyebrow {
+      color: var(--accent);
+      font-weight: 800;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+
+    h1, h2, h3, p { margin-top: 0; }
+
+    h1 {
+      font-size: clamp(44px, 6.4vw, 78px);
+      line-height: .94;
+      letter-spacing: -0.067em;
+      margin-bottom: 22px;
+    }
+
+    h2 {
+      font-size: 32px;
+      line-height: 1.12;
+      letter-spacing: -0.04em;
+      margin: 58px 0 14px;
+      padding-top: 8px;
+    }
+
+    h3 {
+      font-size: 19px;
+      letter-spacing: -0.025em;
+      margin: 0 0 8px;
+    }
+
+    p { color: var(--muted); font-size: 16px; }
+
+    .lead {
+      font-size: 20px;
+      color: #4b453d;
+      max-width: 760px;
+      margin-bottom: 28px;
+    }
+
+    .actions {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin: 26px 0 38px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      min-height: 42px;
+      padding: 0 16px;
+      border-radius: 11px;
+      border: 1px solid var(--border-strong);
+      background: var(--surface);
+      color: var(--text);
+      font-weight: 760;
+      font-size: 14px;
+      box-shadow: 0 2px 7px rgba(35,30,20,.045);
+    }
+
+    .button.primary {
+      background: #211f1b;
+      color: #fff;
+      border-color: #211f1b;
+    }
+
+    .button.accent {
+      background: var(--accent);
+      color: #fff;
+      border-color: var(--accent);
+    }
+
+    .callout {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      box-shadow: var(--shadow);
+      margin: 28px 0;
+    }
+
+    .callout strong { color: var(--text); }
+    .callout p { margin: 6px 0 0; }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 14px;
+      margin: 18px 0;
+    }
+
+    .mini-card,
+    .section-card {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      border-radius: var(--radius);
+      box-shadow: 0 12px 30px rgba(35,30,20,.05);
+    }
+
+    .mini-card { padding: 18px; }
+    .section-card { padding: 22px; margin: 18px 0; }
+
+    .mini-card h3 { font-size: 16px; margin-bottom: 6px; }
+    .mini-card p { font-size: 14px; margin: 0; }
+
+    .metric strong {
+      display: block;
+      font-size: 38px;
+      line-height: 1;
+      letter-spacing: -0.06em;
+      margin-bottom: 7px;
+    }
+
+    .file-row {
+      display: grid;
+      grid-template-columns: 190px 1fr auto;
+      gap: 16px;
+      align-items: start;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .file-row:last-child { border-bottom: 0; }
+
+    .file-name, code, pre, .tag {
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+    }
+
+    .file-name {
+      color: var(--text);
+      font-size: 13px;
+      font-weight: 800;
+    }
+
+    pre {
+      margin: 18px 0;
+      overflow: auto;
+      border-radius: var(--radius);
+      background: var(--surface-code);
+      border: 1px solid #292929;
+      color: #e8e8e8;
+      padding: 20px;
+      font-size: 13px;
+      line-height: 1.65;
+    }
+
+    .tree { white-space: pre; }
+
+    .inline-code {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: 2px 6px;
+      font-size: .92em;
+      color: #352f28;
+    }
+
+    .tag-list { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+    .tag {
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      color: #48443d;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 13px;
+    }
+
+    .right-panel {
+      position: sticky;
+      top: 64px;
+      height: calc(100vh - 64px);
+      overflow: hidden;
+      border-left: 1px solid var(--border);
+      background: rgba(255,255,255,.54);
+      backdrop-filter: blur(18px);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      padding: 22px 22px 14px;
+      border-bottom: 1px solid var(--border);
+      background: rgba(255,255,255,.72);
+    }
+
+    .panel-kicker {
+      color: var(--accent);
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: .1em;
+      font-weight: 800;
+      margin-bottom: 6px;
+    }
+
+    .panel-title {
+      font-size: 22px;
+      line-height: 1.15;
+      letter-spacing: -0.035em;
+      margin: 0;
+    }
+
+    .panel-body {
+      overflow: auto;
+      padding: 22px;
+    }
+
+    .panel-empty {
+      border: 1px dashed var(--border-strong);
+      border-radius: var(--radius);
+      padding: 18px;
+      background: var(--surface);
+      color: var(--muted);
+    }
+
+    .doc-modal {
+      display: none;
+      animation: panelIn .18s ease-out;
+    }
+
+    .doc-modal.active { display: block; }
+
+    .doc-modal h3 {
+      margin-top: 22px;
+      margin-bottom: 8px;
+      font-size: 17px;
+    }
+
+    .doc-modal p,
+    .doc-modal li { font-size: 14px; color: var(--muted); }
+
+    .doc-modal ul,
+    .doc-modal ol { padding-left: 20px; }
+
+    .doc-modal pre { font-size: 12px; margin: 14px 0; }
+
+    .modal-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin: 16px 0 4px;
+    }
+
+    .small-button {
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      border-radius: 9px;
+      padding: 7px 10px;
+      color: var(--text);
+      font-weight: 760;
+      font-size: 13px;
+    }
+
+    .status-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      border-radius: 999px;
+      border: 1px solid var(--accent-line);
+      background: var(--accent-soft);
+      color: #4d35d8;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 800;
+      margin-bottom: 12px;
+    }
+
+    .hidden-docs {
+      display: none;
+    }
+
+    .mobile-panel-toggle {
+      display: none;
+      position: fixed;
+      right: 16px;
+      bottom: 16px;
+      z-index: 60;
+      border-radius: 999px;
+      padding: 12px 16px;
+      background: var(--accent);
+      color: white;
+      box-shadow: 0 18px 40px rgba(109,85,255,.3);
+      font-weight: 800;
+    }
+
+    .footer {
+      margin-top: 72px;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      color: var(--muted-light);
+      font-size: 14px;
+      display: flex;
+      justify-content: space-between;
+      gap: 18px;
+    }
+
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 1240px) {
+      :root { --panel: 360px; }
+      .main { padding: 46px 36px 86px; }
+    }
+
+    @media (max-width: 1080px) {
+      .app-shell { grid-template-columns: var(--sidebar) minmax(0, 1fr); }
+      .right-panel {
+        position: fixed;
+        top: 64px;
+        right: 0;
+        width: min(460px, 92vw);
+        transform: translateX(102%);
+        transition: transform .2s ease-out;
+        z-index: 50;
+        box-shadow: -20px 0 60px rgba(35,30,20,.16);
+      }
+      body.panel-open .right-panel { transform: translateX(0); }
+      .mobile-panel-toggle { display: inline-flex; }
+    }
+
+    @media (max-width: 760px) {
+      .app-topbar { padding: 0 16px; }
+      .top-actions a { display: none; }
+      .search-pill { display: none; }
+      .app-shell { display: block; }
+      .sidebar {
+        position: static;
+        height: auto;
+        border-right: 0;
+        border-bottom: 1px solid var(--border);
+        padding: 18px 16px;
+      }
+      .main { padding: 36px 20px 72px; }
+      .grid-2, .grid-3, .file-row { grid-template-columns: 1fr; }
+      h1 { font-size: 44px; }
+      .file-row { gap: 8px; }
+      .footer { flex-direction: column; }
+    }
+  </style>
+</head>
+
+<body agentic-role="document" agentic-context="single-file-documentation-app">
+  <header class="app-topbar" agentic-role="navigation" agentic-purpose="global-navigation" agentic-priority="high">
+    <button class="brand" type="button" data-open="overview" agentic-action="open-modal" agentic-context="home-navigation">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>Agentic HTML</span>
+    </button>
+
+    <div class="top-actions" agentic-role="toolbar" agentic-purpose="documentation-actions">
+      <button class="search-pill" type="button" data-open="search" agentic-action="open-modal" agentic-context="documentation-search">
+        <span>Search documentation...</span>
+        <span class="kbd">⌘K</span>
+      </button>
+      <button class="small-button" type="button" data-open="llms" agentic-action="open-modal" agentic-entity="file.llms">llms.txt</button>
+      <button class="small-button" type="button" data-open="agentic-json" agentic-action="open-modal" agentic-entity="file.agentic-json">agentic.json</button>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar" agentic-role="navigation" agentic-purpose="documentation-sidebar" agentic-priority="high">
+      <div class="sidebar-title">Get started</div>
+      <button class="nav-button active" type="button" data-open="overview" agentic-action="open-modal"><span>What is Agentic HTML?</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="why" agentic-action="open-modal"><span>Why it matters</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="manifesto" agentic-action="open-modal"><span>Human manifesto</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="principles" agentic-action="open-modal"><span>Principles</span><span class="dot"></span></button>
+
+      <div class="sidebar-title">Protocol</div>
+      <button class="nav-button" type="button" data-open="architecture" agentic-action="open-modal"><span>Architecture</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="files" agentic-action="open-modal"><span>Protocol files</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="attributes" agentic-action="open-modal"><span>HTML attributes</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="vocabulary" agentic-action="open-modal"><span>Vocabulary</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="policies" agentic-action="open-modal"><span>Policies</span><span class="dot"></span></button>
+
+      <div class="sidebar-title">Files</div>
+      <button class="nav-button" type="button" data-open="agentic-json" agentic-action="open-modal"><span>agentic.json</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="agentic-map" agentic-action="open-modal"><span>agentic-map.json</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="agentic-skills" agentic-action="open-modal"><span>agentic-skills.md</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="llms" agentic-action="open-modal"><span>llms.txt</span><span class="dot"></span></button>
+
+      <div class="sidebar-title">Build</div>
+      <button class="nav-button" type="button" data-open="implementation" agentic-action="open-modal"><span>Implementation example</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="agent-test" agentic-action="open-modal"><span>Agent test guide</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="validator" agentic-action="open-modal"><span>Validation checklist</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="roadmap" agentic-action="open-modal"><span>Roadmap</span><span class="dot"></span></button>
+    </aside>
+
+    <main class="main" id="top" agentic-role="main" agentic-purpose="protocol-overview" agentic-priority="critical">
+      <section agentic-role="hero" agentic-entity="protocol.agentic-html" agentic-purpose="introduce" agentic-priority="critical">
+        <div class="eyebrow">AHP v0.1 · ACG Research Initiative</div>
+        <h1>Agentic HTML Protocol</h1>
+        <p class="lead" agentic-purpose="describe-benefit">
+          Una documentación funcional en un solo archivo para explorar cómo una web puede declararse comprensible, navegable y operable por humanos, buscadores y agentes IA.
+        </p>
+
+        <div class="callout" agentic-role="note" agentic-purpose="highlight-core-idea" agentic-priority="high">
+          <strong>Idea central</strong>
+          <p>La web no debería ser solamente vista. También debería poder ser comprendida.</p>
+        </div>
+
+        <div class="actions" agentic-role="navigation" agentic-purpose="primary-actions">
+          <button class="button primary" type="button" data-open="implementation" agentic-action="open-modal" agentic-context="implementation-example">Ver ejemplo</button>
+          <button class="button" type="button" data-open="agent-test" agentic-action="open-modal" agentic-context="agent-testing">Probar con un agente</button>
+          <button class="button accent" type="button" data-open="agentic-json" agentic-action="open-modal" agentic-context="protocol-discovery">Ver archivos core</button>
+        </div>
+      </section>
+
+      <section agentic-role="dashboard" agentic-purpose="summarize-protocol">
+        <div class="grid-3">
+          <article class="mini-card metric" agentic-role="metric" agentic-entity="metric.core-files" agentic-purpose="display-count">
+            <strong>3</strong>
+            <p>archivos core: agentic.json, map y skills.</p>
+          </article>
+          <article class="mini-card metric" agentic-role="metric" agentic-entity="metric.attributes" agentic-purpose="display-count">
+            <strong>10</strong>
+            <p>atributos base para intención, acción y contexto.</p>
+          </article>
+          <article class="mini-card metric" agentic-role="metric" agentic-entity="metric.single-file" agentic-purpose="display-count">
+            <strong>1</strong>
+            <p>web completa en un solo archivo HTML funcional.</p>
+          </article>
+        </div>
+      </section>
+
+      <section agentic-role="section" agentic-entity="protocol.summary" agentic-purpose="explain-summary">
+        <h2>Cómo funciona esta documentación</h2>
+        <p>
+          La navegación no cambia de página. Cada elemento del menú abre un panel en la columna derecha con la documentación completa. Así el sitio se comporta como una aplicación, pero sigue siendo HTML puro con CSS y JavaScript mínimos en el mismo archivo.
+        </p>
+
+        <div class="grid-2">
+          <article class="mini-card" agentic-role="article" agentic-purpose="explain-benefit">
+            <h3>Para usuarios</h3>
+            <p>La lectura es clara: menú a la izquierda, resumen al centro y detalle a la derecha.</p>
+          </article>
+          <article class="mini-card" agentic-role="article" agentic-purpose="explain-benefit">
+            <h3>Para agentes</h3>
+            <p>La interfaz declara acciones, entidades, políticas y propósito mediante atributos agentic.</p>
+          </article>
+        </div>
+      </section>
+
+      <section agentic-role="section" agentic-entity="protocol.files-preview" agentic-purpose="preview-files">
+        <h2>Archivos principales</h2>
+        <p>Estos archivos existen embebidos dentro de esta misma página para mantener todo en un único HTML. En una web oficial real también podrían publicarse como rutas independientes.</p>
+
+        <div class="section-card" agentic-role="list" agentic-purpose="list-protocol-files">
+          <div class="file-row" agentic-role="file" agentic-entity="file.agentic-json" agentic-purpose="describe-file">
+            <div class="file-name">/agentic.json</div>
+            <p>Archivo de entrada y descubrimiento del protocolo.</p>
+            <button class="small-button" type="button" data-open="agentic-json" agentic-action="open-modal">Abrir</button>
+          </div>
+          <div class="file-row" agentic-role="file" agentic-entity="file.agentic-map" agentic-purpose="describe-file">
+            <div class="file-name">/agentic-map.json</div>
+            <p>Mapa operativo de entidades, acciones, rutas y flujos.</p>
+            <button class="small-button" type="button" data-open="agentic-map" agentic-action="open-modal">Abrir</button>
+          </div>
+          <div class="file-row" agentic-role="file" agentic-entity="file.agentic-skills" agentic-purpose="describe-file">
+            <div class="file-name">/agentic-skills.md</div>
+            <p>Instrucciones para que un agente use la web de forma segura.</p>
+            <button class="small-button" type="button" data-open="agentic-skills" agentic-action="open-modal">Abrir</button>
+          </div>
+        </div>
+      </section>
+
+      <section agentic-role="section" agentic-entity="protocol.quick-start" agentic-purpose="guide-next-steps">
+        <h2>Quick start</h2>
+        <pre agentic-role="code-example" agentic-purpose="show-html-example"><code>&lt;section
+  agentic-role="service"
+  agentic-entity="service.ai-automation"
+  agentic-purpose="service-presentation"&gt;
+
+  &lt;h2&gt;Automatización con IA&lt;/h2&gt;
+
+  &lt;p agentic-purpose="describe-benefit"&gt;
+    Implementamos flujos inteligentes para negocios modernos.
+  &lt;/p&gt;
+
+  &lt;a
+    href="/contacto"
+    agentic-action="request-consultation"
+    agentic-context="lead-capture"
+    agentic-policy="requires-human-confirmation"&gt;
+    Solicitar consultoría
+  &lt;/a&gt;
+&lt;/section&gt;</code></pre>
+      </section>
+
+      <footer class="footer" agentic-role="footer" agentic-purpose="identify-ownership" agentic-entity="organization.artur-creative-group">
+        <span>Agentic HTML Protocol · Human First, Agent Ready.</span>
+        <span>Artur Creative Group</span>
+      </footer>
+    </main>
+
+    <aside class="right-panel" agentic-role="modal-panel" agentic-purpose="display-contextual-documentation" agentic-priority="high">
+      <div class="panel-header">
+        <div class="panel-kicker" id="panelKicker">Documentation</div>
+        <h2 class="panel-title" id="panelTitle">What is Agentic HTML?</h2>
+      </div>
+
+      <div class="panel-body" id="panelBody">
+        <section class="doc-modal active" id="modal-overview" agentic-role="modal" agentic-entity="doc.overview" agentic-purpose="explain-overview">
+          <span class="status-pill">AHP v0.1</span>
+          <p><strong>Agentic HTML Protocol</strong> es una propuesta experimental para que una web comunique explícitamente qué es, qué hace, qué acciones permite y cómo debe ser utilizada por agentes IA.</p>
+          <h3>Definición corta</h3>
+          <p>HTML para humanos, estructura para navegadores, datos para buscadores y contexto operativo para agentes.</p>
+          <h3>Qué no es</h3>
+          <ul>
+            <li>No reemplaza HTML.</li>
+            <li>No reemplaza accesibilidad.</li>
+            <li>No reemplaza APIs ni MCP.</li>
+            <li>No obliga a usar frameworks.</li>
+          </ul>
+          <h3>Qué propone</h3>
+          <p>Una capa progresiva basada en atributos, archivos de descubrimiento y skills publicadas por la propia web.</p>
+        </section>
+
+        <section class="doc-modal" id="modal-why" agentic-role="modal" agentic-entity="doc.why" agentic-purpose="explain-why">
+          <p>Los agentes IA ya pueden navegar interfaces, leer contenido, preparar formularios y ayudar a usuarios. El problema es que la mayoría de webs no fueron diseñadas para ser interpretadas por agentes.</p>
+          <h3>Problema actual</h3>
+          <ul>
+            <li>Los agentes tienen que adivinar la intención de botones y formularios.</li>
+            <li>La estructura visual no siempre coincide con la estructura semántica.</li>
+            <li>Muchas interfaces modernas son opacas por exceso de capas.</li>
+            <li>Las acciones sensibles no siempre declaran límites claros.</li>
+          </ul>
+          <h3>Objetivo</h3>
+          <p>Reducir ambigüedad y hacer que la colaboración humano-agente sea más segura, clara y verificable.</p>
+        </section>
+
+        <section class="doc-modal" id="modal-manifesto" agentic-role="modal" agentic-entity="doc.manifesto" agentic-purpose="present-manifesto">
+          <p>La web ya no es solo humana. Durante años construimos internet pensando en pantallas, botones, formularios y personas. Ahora las inteligencias también recorren la web.</p>
+          <p>Agentic HTML nace de una idea simple: las interfaces del futuro deben poder ser comprendidas, no solo vistas.</p>
+          <p>No queremos una web construida solamente para algoritmos. Tampoco una web donde las personas desaparezcan. Queremos una web donde humanos y agentes inteligentes puedan convivir, entenderse y colaborar.</p>
+          <h3>Principio humano</h3>
+          <p>La tecnología debería acercar comprensión, no aumentar confusión. La humanidad debe permanecer en el centro del mensaje.</p>
+        </section>
+
+        <section class="doc-modal" id="modal-principles" agentic-role="modal" agentic-entity="doc.principles" agentic-purpose="list-principles">
+          <h3>1. Human First, Agent Ready</h3>
+          <p>La interfaz se diseña primero para personas, pero queda preparada para agentes.</p>
+          <h3>2. Explicit Intent</h3>
+          <p>La intención se declara explícitamente. Un agente no debería tener que adivinar.</p>
+          <h3>3. Semantic Operability</h3>
+          <p>No basta con describir contenido. También hay que describir acciones y flujos.</p>
+          <h3>4. Progressive Compatibility</h3>
+          <p>El protocolo debe funcionar sobre HTML existente sin romper la web actual.</p>
+          <h3>5. Safety by Default</h3>
+          <p>Las acciones sensibles deben exigir confirmación humana o autenticación.</p>
+        </section>
+
+        <section class="doc-modal" id="modal-architecture" agentic-role="modal" agentic-entity="doc.architecture" agentic-purpose="explain-architecture">
+          <p>Agentic HTML Protocol se organiza en tres capas principales y una capa de descubrimiento.</p>
+          <h3>Raíz recomendada</h3>
+          <pre class="tree"><code>/
+├── index.html
+├── robots.txt
+├── sitemap.xml
+├── llms.txt
+├── agentic.json
+├── agentic-map.json
+├── agentic-skills.md
+└── .well-known/
+    ├── agentic.json
+    ├── agentic-map.json
+    └── agentic-skills.md</code></pre>
+          <h3>Capas</h3>
+          <ul>
+            <li><strong>Agentic HTML:</strong> atributos dentro del HTML.</li>
+            <li><strong>Agentic Map:</strong> mapa operativo en JSON.</li>
+            <li><strong>Agentic Skills:</strong> instrucciones en Markdown.</li>
+            <li><strong>Discovery:</strong> enlaces y rutas para encontrar los archivos.</li>
+          </ul>
+        </section>
+
+        <section class="doc-modal" id="modal-files" agentic-role="modal" agentic-entity="doc.files" agentic-purpose="document-files">
+          <h3>agentic.json</h3>
+          <p>Archivo de entrada. Declara nombre, versión, idioma, archivos asociados y políticas generales.</p>
+          <h3>agentic-map.json</h3>
+          <p>Describe entidades, acciones, rutas, formularios, flujos y restricciones operativas.</p>
+          <h3>agentic-skills.md</h3>
+          <p>Documento legible para agentes y humanos con instrucciones de uso, límites y flujos recomendados.</p>
+          <h3>llms.txt</h3>
+          <p>Contexto editorial y de documentación para modelos de lenguaje.</p>
+        </section>
+
+        <section class="doc-modal" id="modal-attributes" agentic-role="modal" agentic-entity="doc.attributes" agentic-purpose="document-attributes">
+          <p>Los atributos se aplican directamente sobre HTML normal. No reemplazan etiquetas semánticas; las complementan.</p>
+          <div class="tag-list">
+            <span class="tag">agentic-role</span><span class="tag">agentic-entity</span><span class="tag">agentic-purpose</span><span class="tag">agentic-action</span><span class="tag">agentic-context</span><span class="tag">agentic-flow</span><span class="tag">agentic-step</span><span class="tag">agentic-policy</span><span class="tag">agentic-priority</span><span class="tag">agentic-state</span>
+          </div>
+          <h3>Ejemplo</h3>
+          <pre><code>&lt;button
+  agentic-action="submit-form"
+  agentic-policy="requires-human-confirmation"&gt;
+  Enviar
+&lt;/button&gt;</code></pre>
+        </section>
+
+        <section class="doc-modal" id="modal-vocabulary" agentic-role="modal" agentic-entity="doc.vocabulary" agentic-purpose="document-vocabulary">
+          <h3>Roles comunes</h3>
+          <div class="tag-list"><span class="tag">page</span><span class="tag">navigation</span><span class="tag">hero</span><span class="tag">service</span><span class="tag">product</span><span class="tag">pricing</span><span class="tag">faq</span><span class="tag">form</span><span class="tag">contact</span><span class="tag">checkout</span><span class="tag">article</span><span class="tag">dashboard</span><span class="tag">modal</span><span class="tag">alert</span><span class="tag">legal</span><span class="tag">support</span></div>
+          <h3>Acciones comunes</h3>
+          <div class="tag-list"><span class="tag">navigate</span><span class="tag">open-modal</span><span class="tag">request-consultation</span><span class="tag">submit-form</span><span class="tag">send-message</span><span class="tag">purchase-product</span><span class="tag">book-appointment</span><span class="tag">download-file</span><span class="tag">subscribe</span><span class="tag">login</span><span class="tag">logout</span><span class="tag">search</span><span class="tag">filter</span><span class="tag">compare</span><span class="tag">confirm</span><span class="tag">cancel</span></div>
+          <h3>Prioridades</h3>
+          <div class="tag-list"><span class="tag">low</span><span class="tag">medium</span><span class="tag">high</span><span class="tag">critical</span></div>
+        </section>
+
+        <section class="doc-modal" id="modal-policies" agentic-role="modal" agentic-entity="doc.policies" agentic-purpose="document-policies">
+          <p>Las políticas son el corazón de la seguridad del protocolo. Sirven para declarar qué puede o no puede hacer un agente.</p>
+          <div class="tag-list">
+            <span class="tag">public</span><span class="tag">read-only</span><span class="tag">requires-human-confirmation</span><span class="tag">requires-authentication</span><span class="tag">requires-payment-confirmation</span><span class="tag">sensitive-data</span><span class="tag">no-autonomous-submit</span><span class="tag">human-only</span>
+          </div>
+          <h3>Regla base</h3>
+          <p>Ningún agente debería enviar formularios, realizar compras, aceptar condiciones o compartir datos personales sin confirmación humana explícita.</p>
+        </section>
+
+        <section class="doc-modal" id="modal-agentic-json" agentic-role="modal" agentic-entity="file.agentic-json" agentic-purpose="show-file-content">
+          <p>Archivo de entrada del protocolo. En esta versión está embebido en el mismo HTML, pero en producción podría vivir en <code class="inline-code">/agentic.json</code>.</p>
+          <pre id="agentic-json"><code>{
+  "protocol": "agentic-html",
+  "version": "0.1",
+  "site": {
+    "name": "Agentic HTML Protocol",
+    "owner": "Artur Creative Group",
+    "language": "es",
+    "mode": "single-file-documentation-app"
+  },
+  "files": {
+    "map": "#agentic-map-json",
+    "skills": "#agentic-skills-md",
+    "llms": "#llms-txt"
+  },
+  "policy": {
+    "requiresHumanConfirmation": true,
+    "allowAutonomousNavigation": true,
+    "allowAutonomousSubmission": false,
+    "allowSensitiveDataCollection": false
+  }
+}</code></pre>
+        </section>
+
+        <section class="doc-modal" id="modal-agentic-map" agentic-role="modal" agentic-entity="file.agentic-map" agentic-purpose="show-file-content">
+          <p>Mapa operativo de la documentación. Permite que un agente entienda entidades, acciones y flujos disponibles.</p>
+          <pre id="agentic-map-json"><code>{
+  "version": "0.1",
+  "entities": [
+    { "id": "protocol.agentic-html", "type": "protocol", "name": "Agentic HTML Protocol" },
+    { "id": "organization.artur-creative-group", "type": "organization", "name": "Artur Creative Group" },
+    { "id": "doc.implementation", "type": "documentation", "name": "Implementation example" }
+  ],
+  "actions": [
+    { "id": "open-modal", "type": "navigation", "requiresHumanConfirmation": false },
+    { "id": "download-file", "type": "read", "requiresHumanConfirmation": false },
+    { "id": "submit-form", "type": "write", "requiresHumanConfirmation": true }
+  ],
+  "flows": [
+    {
+      "id": "learn-protocol",
+      "goal": "Help the user understand and test Agentic HTML Protocol",
+      "steps": ["open-overview", "review-architecture", "inspect-core-files", "read-implementation-example", "run-agent-test"]
+    }
+  ]
+}</code></pre>
+        </section>
+
+        <section class="doc-modal" id="modal-agentic-skills" agentic-role="modal" agentic-entity="file.agentic-skills" agentic-purpose="show-file-content">
+          <p>Skills publicadas por la web para orientar el comportamiento del agente.</p>
+          <pre id="agentic-skills-md"><code># Agentic Skills
+
+## Purpose
+Help users understand Agentic HTML Protocol and inspect how this documentation web exposes context, actions, files and policies for AI agents.
+
+## Allowed actions
+- Navigate documentation panels.
+- Summarize sections.
+- Inspect embedded protocol files.
+- Explain how to implement Agentic HTML in another website.
+
+## Restricted actions
+- Do not submit forms without human confirmation.
+- Do not invent protocol attributes not present in the documentation.
+- Do not treat this experimental proposal as an official web standard.
+- Do not collect sensitive user data.
+
+## Recommended flow
+1. Open the overview panel.
+2. Review the architecture.
+3. Inspect agentic.json.
+4. Inspect agentic-map.json.
+5. Inspect agentic-skills.md.
+6. Explain the implementation example.
+7. Suggest a safe next step for the user.</code></pre>
+        </section>
+
+        <section class="doc-modal" id="modal-llms" agentic-role="modal" agentic-entity="file.llms" agentic-purpose="show-file-content">
+          <p>Contexto tipo <code class="inline-code">llms.txt</code> embebido en esta documentación.</p>
+          <pre id="llms-txt"><code># Agentic HTML Protocol
+
+Agentic HTML Protocol is an experimental documentation and interface proposal by Artur Creative Group. It explores how websites can expose purpose, actions, context, files and safety policies to AI agents while remaining human-first.
+
+## Core documents
+- Overview
+- Human Manifesto
+- Architecture
+- Protocol Files
+- Agentic Attributes
+- Vocabulary
+- Policies
+- Implementation Example
+- Agent Test Guide
+
+## Important note
+This is an experimental proposal, not an official HTML standard.</code></pre>
+        </section>
+
+        <section class="doc-modal" id="modal-implementation" agentic-role="modal" agentic-entity="doc.implementation" agentic-purpose="show-implementation-example">
+          <p>Ejemplo mínimo de un bloque HTML preparado para agentes.</p>
+          <pre><code>&lt;section
+  agentic-role="service"
+  agentic-entity="service.ai-automation"
+  agentic-purpose="service-presentation"&gt;
+
+  &lt;h2&gt;Automatización con IA&lt;/h2&gt;
+
+  &lt;p agentic-purpose="describe-benefit"&gt;
+    Implementamos flujos inteligentes para negocios modernos.
+  &lt;/p&gt;
+
+  &lt;a
+    href="/contacto"
+    agentic-action="request-consultation"
+    agentic-context="lead-capture"
+    agentic-policy="requires-human-confirmation"&gt;
+    Solicitar consultoría
+  &lt;/a&gt;
+&lt;/section&gt;</code></pre>
+          <h3>Qué entiende un agente</h3>
+          <ul>
+            <li>El bloque representa un servicio.</li>
+            <li>La entidad es un servicio de automatización con IA.</li>
+            <li>El enlace inicia una consulta comercial.</li>
+            <li>La acción requiere confirmación humana.</li>
+          </ul>
+        </section>
+
+        <section class="doc-modal" id="modal-agent-test" agentic-role="modal" agentic-entity="doc.agent-test" agentic-purpose="guide-agent-test">
+          <p>Usa esta guía para pedirle a un agente que pruebe la web oficial.</p>
+          <h3>Prompt de prueba</h3>
+          <pre><code>Analiza esta página como un agente IA.
+1. Identifica si soporta Agentic HTML Protocol.
+2. Encuentra los atributos agentic-* más importantes.
+3. Resume las entidades, acciones y políticas disponibles.
+4. Lee los bloques equivalentes a agentic.json, agentic-map.json y agentic-skills.md.
+5. Explica qué acciones puedes ejecutar y cuáles requieren confirmación humana.</code></pre>
+          <h3>Resultado esperado</h3>
+          <p>El agente debería reconocer que la web funciona como documentación y como demostración del propio protocolo.</p>
+        </section>
+
+        <section class="doc-modal" id="modal-validator" agentic-role="modal" agentic-entity="doc.validator" agentic-purpose="show-validation-checklist">
+          <h3>Checklist de validación</h3>
+          <ul>
+            <li>La página mantiene HTML semántico normal.</li>
+            <li>Los atributos agentic no reemplazan accesibilidad ni etiquetas nativas.</li>
+            <li>Las acciones sensibles declaran política.</li>
+            <li>Existe un mapa de entidades y acciones.</li>
+            <li>Las skills indican límites y comportamiento esperado.</li>
+            <li>La navegación interna funciona sin salir de la página.</li>
+            <li>El contenido sigue siendo comprensible para humanos.</li>
+          </ul>
+        </section>
+
+        <section class="doc-modal" id="modal-roadmap" agentic-role="modal" agentic-entity="doc.roadmap" agentic-purpose="present-roadmap">
+          <h3>v0.1</h3>
+          <p>Definición conceptual, atributos base, archivos core y primera demo en HTML puro.</p>
+          <h3>v0.2</h3>
+          <p>Parser JavaScript para extraer un mapa agentic desde cualquier DOM.</p>
+          <h3>v0.3</h3>
+          <p>Validador visual de atributos, políticas y flujos.</p>
+          <h3>v1.0</h3>
+          <p>Especificación pública, documentación completa, demos y repositorio abierto.</p>
+        </section>
+
+        <section class="doc-modal" id="modal-search" agentic-role="modal" agentic-entity="doc.search" agentic-purpose="search-documentation">
+          <p>En esta versión, la búsqueda es conceptual. La navegación se realiza desde el menú izquierdo y los paneles de la derecha.</p>
+          <h3>Secciones disponibles</h3>
+          <div class="tag-list"><span class="tag">overview</span><span class="tag">manifesto</span><span class="tag">architecture</span><span class="tag">files</span><span class="tag">attributes</span><span class="tag">policies</span><span class="tag">implementation</span><span class="tag">agent-test</span></div>
+        </section>
+      </div>
+    </aside>
+  </div>
+
+  <button class="mobile-panel-toggle" type="button" id="mobilePanelToggle" agentic-action="open-modal" agentic-context="mobile-panel">Panel</button>
+
+<script>
+(function () {
+
+  const titles = {
+    overview: ["Documentation", "What is Agentic HTML?"],
+    why: ["Concept", "Why it matters"],
+    manifesto: ["Manifesto", "Human manifesto"],
+    principles: ["Foundation", "Principles"],
+    architecture: ["Protocol", "Architecture"],
+    files: ["Protocol", "Protocol files"],
+    attributes: ["Protocol", "HTML attributes"],
+    vocabulary: ["Protocol", "Vocabulary"],
+    policies: ["Safety", "Policies"],
+    "agentic-json": ["File", "agentic.json"],
+    "agentic-map": ["File", "agentic-map.json"],
+    "agentic-skills": ["File", "agentic-skills.md"],
+    llms: ["File", "llms.txt"],
+    implementation: ["Build", "Implementation example"],
+    "agent-test": ["Testing", "Agent test guide"],
+    validator: ["Quality", "Validation checklist"],
+    roadmap: ["Project", "Roadmap"],
+    search: ["Search", "Documentation search"]
+  };
+
+  const buttons = Array.from(
+    document.querySelectorAll("[data-open]")
+  );
+
+  const modals = Array.from(
+    document.querySelectorAll(".doc-modal")
+  );
+
+  const panelKicker =
+    document.getElementById("panelKicker");
+
+  const panelTitle =
+    document.getElementById("panelTitle");
+
+  const mobileToggle =
+    document.getElementById("mobilePanelToggle");
+
+  function openPanel(id) {
+
+    const target =
+      document.getElementById("modal-" + id);
+
+    if (!target) return;
+
+    modals.forEach((modal) => {
+      modal.classList.remove("active");
+    });
+
+    target.classList.add("active");
+
+    buttons.forEach((button) => {
+
+      button.classList.toggle(
+        "active",
+        button.dataset.open === id
+      );
+
+    });
+
+    const titleData =
+      titles[id] ||
+      ["Documentation", "Agentic HTML"];
+
+    panelKicker.textContent =
+      titleData[0];
+
+    panelTitle.textContent =
+      titleData[1];
+
+    if (window.innerWidth <= 1080) {
+      document.body.classList.add("panel-open");
+    }
+
+    history.replaceState(
+      null,
+      "",
+      "#" + id
+    );
+  }
+
+  buttons.forEach((button) => {
+
+    button.addEventListener(
+      "click",
+      function () {
+
+        openPanel(
+          this.dataset.open
+        );
+
+      }
+    );
+
+  });
+
+  if (mobileToggle) {
+
+    mobileToggle.addEventListener(
+      "click",
+      function () {
+
+        document.body.classList.toggle(
+          "panel-open"
+        );
+
+      }
+    );
+
+  }
+
+  document.addEventListener(
+    "keydown",
+    function (event) {
+
+      if (event.key === "Escape") {
+
+        document.body.classList.remove(
+          "panel-open"
+        );
+
+      }
+
+      if (
+        (event.metaKey || event.ctrlKey) &&
+        event.key.toLowerCase() === "k"
+      ) {
+
+        event.preventDefault();
+
+        openPanel("search");
+
+      }
+
+    }
+  );
+
+  const initial =
+    location.hash
+      ? location.hash.replace("#", "")
+      : "overview";
+
+  if (titles[initial]) {
+
+    openPanel(initial);
+
+  } else {
+
+    openPanel("overview");
+
+  }
+
+})();
+</script>
+
+</body>
+</html>
