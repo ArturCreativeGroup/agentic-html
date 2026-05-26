@@ -1,5 +1,9 @@
 # Agentic HTML Protocol
 
+<p align="center">
+  <img src="./assets/Stop_motion_Agentic_HTML.gif" alt="Agentic HTML Protocol animation" width="100%">
+</p>
+
 ## ¿Qué es esto?
 
 Agentic HTML Protocol es un proyecto experimental que explora cómo las interfaces web podrían exponer intención operacional, contexto semántico y reglas de interacción para agentes IA.
