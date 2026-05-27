@@ -564,6 +564,7 @@
       <button class="nav-button" type="button" data-open="agentic-json" agentic-action="open-modal"><span>agentic.json</span><span class="dot"></span></button>
       <button class="nav-button" type="button" data-open="agentic-map" agentic-action="open-modal"><span>agentic-map.json</span><span class="dot"></span></button>
       <button class="nav-button" type="button" data-open="agentic-skills" agentic-action="open-modal"><span>agentic-skills.md</span><span class="dot"></span></button>
+      <button class="nav-button" type="button" data-open="ahp-skill" agentic-action="open-modal"><span>AHP-SKILL.md</span><span class="dot"></span></button>
       <button class="nav-button" type="button" data-open="llms" agentic-action="open-modal"><span>llms.txt</span><span class="dot"></span></button>
 
       <div class="sidebar-title">Build</div>
@@ -575,7 +576,7 @@
 
     <main class="main" id="top" agentic-role="main" agentic-purpose="protocol-overview" agentic-priority="critical">
       <section agentic-role="hero" agentic-entity="protocol.agentic-html" agentic-purpose="introduce" agentic-priority="critical">
-        <div class="eyebrow">AHP v0.1 · ACG Research Initiative</div>
+        <div class="eyebrow">AHP v0.2 Experimental · ACG Research Initiative</div>
         <h1>Agentic HTML Protocol</h1>
         <p class="lead" agentic-purpose="describe-benefit">
           Una documentación funcional en un solo archivo para explorar cómo una web puede declararse comprensible, navegable y operable por humanos, buscadores y agentes IA.
@@ -596,8 +597,8 @@
       <section agentic-role="dashboard" agentic-purpose="summarize-protocol">
         <div class="grid-3">
           <article class="mini-card metric" agentic-role="metric" agentic-entity="metric.core-files" agentic-purpose="display-count">
-            <strong>3</strong>
-            <p>archivos core: agentic.json, map y skills.</p>
+            <strong>4</strong>
+            <p>archivos core: agentic.json, map, skills y AHP-SKILL.</p>
           </article>
           <article class="mini-card metric" agentic-role="metric" agentic-entity="metric.attributes" agentic-purpose="display-count">
             <strong>10</strong>
@@ -648,6 +649,12 @@
             <p>Instrucciones para que un agente use la web de forma segura.</p>
             <button class="small-button" type="button" data-open="agentic-skills" agentic-action="open-modal">Abrir</button>
           </div>
+
+          <div class="file-row" agentic-role="file" agentic-entity="file.ahp-skill" agentic-purpose="describe-file">
+            <div class="file-name">/AHP-SKILL.md</div>
+            <p>Capa semántica operacional para navegación determinista y ejecución segura.</p>
+            <button class="small-button" type="button" data-open="ahp-skill" agentic-action="open-modal">Abrir</button>
+          </div>
         </div>
       </section>
 
@@ -674,6 +681,39 @@
 &lt;/section&gt;</code></pre>
       </section>
 
+      
+      <section agentic-role="section" agentic-entity="protocol.benchmarks" agentic-purpose="present-benchmark-results">
+        <h2>Resultados experimentales v0.2</h2>
+        <p>
+          Las pruebas actuales sugieren que una capa semántica operacional puede modificar comportamiento de navegación y ejecución en agentes autónomos.
+        </p>
+
+        <div class="grid-3">
+          <article class="mini-card metric">
+            <strong>-18.2%</strong>
+            <p>reducción estimada de tiempo en pruebas ObraLink.</p>
+          </article>
+
+          <article class="mini-card metric">
+            <strong>-20%</strong>
+            <p>reducción estimada de pasos operacionales.</p>
+          </article>
+
+          <article class="mini-card metric">
+            <strong>-37.1%</strong>
+            <p>reducción estimada de pasos en pruebas Qwen.</p>
+          </article>
+        </div>
+
+        <div class="callout">
+          <strong>Importante</strong>
+          <p>
+            Todos los benchmarks actuales son experimentales, exploratorios y todavía no están estadísticamente validados.
+          </p>
+        </div>
+      </section>
+
+
       <footer class="footer" agentic-role="footer" agentic-purpose="identify-ownership" agentic-entity="organization.artur-creative-group">
         <span>Agentic HTML Protocol · Human First, Agent Ready.</span>
         <span>Artur Creative Group</span>
@@ -688,7 +728,7 @@
 
       <div class="panel-body" id="panelBody">
         <section class="doc-modal active" id="modal-overview" agentic-role="modal" agentic-entity="doc.overview" agentic-purpose="explain-overview">
-          <span class="status-pill">AHP v0.1</span>
+          <span class="status-pill">AHP v0.2 Experimental</span>
           <p><strong>Agentic HTML Protocol</strong> es una propuesta experimental para que una web comunique explícitamente qué es, qué hace, qué acciones permite y cómo debe ser utilizada por agentes IA.</p>
           <h3>Definición corta</h3>
           <p>HTML para humanos, estructura para navegadores, datos para buscadores y contexto operativo para agentes.</p>
@@ -807,7 +847,7 @@
           <p>Archivo de entrada del protocolo. En esta versión está embebido en el mismo HTML, pero en producción podría vivir en <code class="inline-code">/agentic.json</code>.</p>
           <pre id="agentic-json"><code>{
   "protocol": "agentic-html",
-  "version": "0.1",
+  "version": "0.2-experimental",
   "site": {
     "name": "Agentic HTML Protocol",
     "owner": "Artur Creative Group",
@@ -831,7 +871,7 @@
         <section class="doc-modal" id="modal-agentic-map" agentic-role="modal" agentic-entity="file.agentic-map" agentic-purpose="show-file-content">
           <p>Mapa operativo de la documentación. Permite que un agente entienda entidades, acciones y flujos disponibles.</p>
           <pre id="agentic-map-json"><code>{
-  "version": "0.1",
+  "version": "0.2-experimental",
   "entities": [
     { "id": "protocol.agentic-html", "type": "protocol", "name": "Agentic HTML Protocol" },
     { "id": "organization.artur-creative-group", "type": "organization", "name": "Artur Creative Group" },
@@ -879,9 +919,30 @@ Help users understand Agentic HTML Protocol and inspect how this documentation w
 5. Inspect agentic-skills.md.
 6. Explain the implementation example.
 7. Suggest a safe next step for the user.</code></pre>
+        
+</section>
+
+        <section class="doc-modal" id="modal-ahp-skill" agentic-role="modal" agentic-entity="file.ahp-skill" agentic-purpose="show-file-content">
+          <span class="status-pill">Operational Semantics Layer</span>
+          <p>AHP-SKILL.md introduce la capa operacional de AHP v0.2.</p>
+
+          <h3>Capacidades introducidas</h3>
+          <ul>
+            <li>Navegación determinista</li>
+            <li>Dangerous action avoidance</li>
+            <li>Movement batching</li>
+            <li>Reanalysis policy</li>
+            <li>Operational continuity</li>
+            <li>Semantic targeting</li>
+          </ul>
+
+          <h3>Impacto observado</h3>
+          <p>
+            Durante las pruebas experimentales, AHP-SKILL.md redujo exploración heurística, mejoró continuidad operacional y disminuyó pausas cognitivas.
+          </p>
         </section>
 
-        <section class="doc-modal" id="modal-llms" agentic-role="modal" agentic-entity="file.llms" agentic-purpose="show-file-content">
+        <section class="doc-modal" id="modal-llms"  agentic-role="modal" agentic-entity="file.llms" agentic-purpose="show-file-content">
           <p>Contexto tipo <code class="inline-code">llms.txt</code> embebido en esta documentación.</p>
           <pre id="llms-txt"><code># Agentic HTML Protocol
 
@@ -959,14 +1020,17 @@ This is an experimental proposal, not an official HTML standard.</code></pre>
         </section>
 
         <section class="doc-modal" id="modal-roadmap" agentic-role="modal" agentic-entity="doc.roadmap" agentic-purpose="present-roadmap">
-          <h3>v0.1</h3>
-          <p>Definición conceptual, atributos base, archivos core y primera demo en HTML puro.</p>
-          <h3>v0.2</h3>
-          <p>Parser JavaScript para extraer un mapa agentic desde cualquier DOM.</p>
-          <h3>v0.3</h3>
-          <p>Validador visual de atributos, políticas y flujos.</p>
-          <h3>v1.0</h3>
-          <p>Especificación pública, documentación completa, demos y repositorio abierto.</p>
+		<h3>v0.1</h3>
+		<p>Definición conceptual, atributos base, archivos core, semántica estructural inicial y primera demo en 		HTML puro.</p>
+
+		<h3>v0.2</h3>
+		<p>Operational Semantics Layer: AHP-SKILL.md, movement batching, dangerous action awareness, reanalysis 		policy y benchmark framework experimental.</p>
+
+		<h3>v0.3</h3>
+		<p>Telemetry, tracing, event instrumentation, replay systems y medición operacional más precisa.</p>
+
+		<h3>v0.4</h3>
+		<p>Semantic execution graphs, validación semántica, benchmark automation y sistemas adaptativos de navegación agentic.</p>
         </section>
 
         <section class="doc-modal" id="modal-search" agentic-role="modal" agentic-entity="doc.search" agentic-purpose="search-documentation">
@@ -996,6 +1060,7 @@ This is an experimental proposal, not an official HTML standard.</code></pre>
     "agentic-json": ["File", "agentic.json"],
     "agentic-map": ["File", "agentic-map.json"],
     "agentic-skills": ["File", "agentic-skills.md"],
+    "ahp-skill": ["Operational Layer", "AHP-SKILL.md"],
     llms: ["File", "llms.txt"],
     implementation: ["Build", "Implementation example"],
     "agent-test": ["Testing", "Agent test guide"],

@@ -1,9 +1,5 @@
 # Agentic HTML Protocol
 
-<p align="center">
-  <img src="./assets/Stop_motion_Agentic_HTML.gif" alt="Agentic HTML Protocol animation" width="100%">
-</p>
-
 ## ¿Qué es esto?
 
 Agentic HTML Protocol es un proyecto experimental que explora cómo las interfaces web podrían exponer intención operacional, contexto semántico y reglas de interacción para agentes IA.
@@ -260,3 +256,60 @@ investigar, experimentar y validar hipótesis relacionadas con interfaces prepar
 Human First. Agent Ready.
 
 La idea central del proyecto no es reemplazar la experiencia humana de la web, sino explorar cómo las interfaces podrían comunicar intención y contexto de manera más explícita para sistemas IA sin perder claridad para
+
+
+---
+## Actualización v0.2 Experimental
+
+AHP v0.2 introduce una nueva capa de semántica operacional orientada a modificar comportamiento de agentes autónomos durante interacción web real.
+
+### Nuevos componentes
+
+- `AHP-SKILL.md`
+- dangerous action policies
+- movement batching
+- deterministic interaction guidance
+- reanalysis policies
+- benchmark framework experimental
+
+### Benchmarks experimentales observados
+
+#### ObraLink
+- ~18.2% reducción estimada de tiempo
+- ~20% reducción estimada de pasos
+
+#### Qwen Desktop Test
+- ~37.1% reducción estimada de pasos
+
+### Hallazgos observados
+
+Las pruebas sugieren:
+- menor exploración heurística
+- navegación más determinista
+- mejor continuidad operacional
+- menor ambigüedad contextual
+- reducción de pausas cognitivas
+- mejor targeting semántico
+
+⚠️ Importante:
+Los benchmarks actuales son experimentales y todavía no están estadísticamente validados.
+
+---
+
+## Nueva Filosofía
+
+AHP evoluciona desde:
+
+```txt
+semantic structural layer
+```
+
+hacia:
+
+```txt
+operational semantic layer
+```
+
+La pregunta principal de investigación ahora es:
+
+> ¿Puede una interfaz web modificar comportamiento operacional de agentes autónomos mediante semántica explícita?
