@@ -1,0 +1,826 @@
+<!doctype html>
+<html lang="es" data-agentic-role="document" data-agentic-entity="ahp.benchmark-site" data-agentic-purpose="publish-experimental-benchmark-framework-with-numeric-results">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>AHP Benchmark Suite — Resultados Experimentales Numéricos</title>
+  <meta name="description" content="AHP Benchmark Suite: métricas experimentales, resultados numéricos y cambios observados en pruebas reales de Agentic HTML Protocol." />
+
+  <script type="application/ld+json" data-agentic-role="metadata" data-agentic-entity="ahp.inline-schema" data-agentic-purpose="machine-readable-benchmark-description">
+  {
+    "@context": {
+      "@vocab": "https://arturcreativegroup.github.io/agentic-html/ns#",
+      "name": "https://schema.org/name",
+      "description": "https://schema.org/description"
+    },
+    "@type": "AgenticBenchmarkSuite",
+    "ahpVersion": "0.2",
+    "name": "AHP Benchmark Suite",
+    "description": "Experimental benchmark suite for measuring operational behavior of autonomous web agents using AHP.",
+    "status": "experimental",
+    "accessProfile": "human-first-agent-ready",
+    "entities": [
+      "benchmark.overview",
+      "benchmark.experimental-results",
+      "benchmark.numeric-scores",
+      "benchmark.navigation",
+      "benchmark.execution",
+      "benchmark.cognition",
+      "benchmark.safety",
+      "benchmark.contribution"
+    ],
+    "observedResults": {
+      "test_1_obralink_v01": {
+        "baseline_time_midpoint_min": 11,
+        "ahp_time_midpoint_min": 9,
+        "time_improvement_percent": 18.2,
+        "baseline_steps": 20,
+        "ahp_steps": 16,
+        "step_reduction_percent": 20,
+        "task_completion_baseline": 100,
+        "task_completion_ahp": 100,
+        "evidence_level": "estimated-agent-reported"
+      },
+      "test_2_qwen_desktop": {
+        "baseline_steps_range": "15-20",
+        "ahp_steps_range": "10-12",
+        "baseline_steps_midpoint": 17.5,
+        "ahp_steps_midpoint": 11,
+        "estimated_step_reduction_percent": 37.1,
+        "evidence_level": "qualitative-estimated"
+      },
+      "test_3_obralink_v02": {
+        "time_min": 15,
+        "actions": 56,
+        "scrolls": 2,
+        "retries": 4,
+        "fatal_errors": 0,
+        "task_completion": 100,
+        "dangerous_action_avoidance": 100,
+        "evidence_level": "observed-operational-run"
+      }
+    },
+    "policies": {
+      "claims": "experimental-results-not-final",
+      "contributions": "external-benchmarks-welcome",
+      "safety": "do-not-use-for-high-risk-autonomous-actions-without-human-confirmation"
+    },
+    "flows": [
+      {
+        "id": "flow.review-benchmarks",
+        "steps": ["read-overview", "inspect-results", "inspect-scores", "inspect-metrics", "submit-findings"]
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    :root {
+      --bg: #ffffff;
+      --text: #111827;
+      --muted: #5f6b7a;
+      --soft: #f6f7f9;
+      --line: #e6e8ec;
+      --accent: #111827;
+      --green: #047857;
+      --amber: #b45309;
+      --red: #b91c1c;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.55;
+      letter-spacing: -0.01em;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .shell { width: min(var(--max), calc(100% - 40px)); margin: 0 auto; }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background: rgba(255,255,255,0.88);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      height: 68px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 650;
+      letter-spacing: -0.03em;
+    }
+
+    .mark {
+      width: 30px;
+      height: 30px;
+      border: 1px solid var(--text);
+      border-radius: 8px;
+      display: grid;
+      place-items: center;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .links { display: flex; gap: 22px; color: var(--muted); font-size: 14px; }
+    .links a:hover { color: var(--text); }
+
+    .hero { padding: 92px 0 66px; border-bottom: 1px solid var(--line); }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 10px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      background: #fff;
+    }
+
+    .dot { width: 7px; height: 7px; border-radius: 999px; background: #f59e0b; }
+
+    h1 {
+      max-width: 940px;
+      margin: 26px 0 22px;
+      font-size: clamp(46px, 7vw, 88px);
+      line-height: 0.96;
+      letter-spacing: -0.075em;
+      font-weight: 720;
+    }
+
+    .lead {
+      max-width: 820px;
+      color: var(--muted);
+      font-size: clamp(18px, 2vw, 22px);
+      letter-spacing: -0.025em;
+    }
+
+    .hero-grid { margin-top: 48px; display: grid; grid-template-columns: 1.4fr 0.9fr; gap: 18px; }
+
+    .panel {
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 26px;
+    }
+
+    .panel h2, .panel h3 { margin-top: 0; }
+    .status { display: grid; gap: 14px; font-size: 15px; color: var(--muted); }
+    .status strong { color: var(--text); }
+
+    section { padding: 72px 0; border-bottom: 1px solid var(--line); }
+
+    .section-head {
+      display: grid;
+      grid-template-columns: 0.85fr 1.15fr;
+      gap: 40px;
+      align-items: start;
+      margin-bottom: 34px;
+    }
+
+    .kicker {
+      color: var(--muted);
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-weight: 700;
+    }
+
+    h2 {
+      margin: 10px 0 0;
+      font-size: clamp(30px, 4vw, 52px);
+      line-height: 1.02;
+      letter-spacing: -0.055em;
+      font-weight: 700;
+    }
+
+    .section-copy { color: var(--muted); font-size: 18px; margin: 0; }
+
+    .score-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin-bottom: 18px;
+    }
+
+    .score-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 22px;
+      background: #fff;
+      min-height: 190px;
+    }
+
+    .score-card .label,
+    .metric .id,
+    .result-card .label {
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .big-number {
+      display: block;
+      margin: 14px 0 8px;
+      font-size: clamp(40px, 5vw, 62px);
+      line-height: 1;
+      letter-spacing: -0.075em;
+      font-weight: 750;
+    }
+
+    .green { color: var(--green); }
+    .amber { color: var(--amber); }
+    .red { color: var(--red); }
+
+    .score-card p,
+    .result-card p,
+    .metric p { color: var(--muted); margin: 0; font-size: 15px; }
+
+    .result-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin-bottom: 18px; }
+
+    .result-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 22px;
+      background: #fff;
+      min-height: 240px;
+    }
+
+    .result-card h3,
+    .metric h3 {
+      margin: 14px 0 10px;
+      line-height: 1.1;
+      font-size: 22px;
+      letter-spacing: -0.035em;
+    }
+
+    .mini-list {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 8px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .mini-list strong { color: var(--text); }
+
+    .metrics { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+
+    .metric {
+      min-height: 210px;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 22px;
+      background: #fff;
+    }
+
+    .formula {
+      margin-top: 18px;
+      padding: 12px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      color: #303846;
+      overflow-x: auto;
+    }
+
+    .table-wrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 18px; margin-top: 18px; }
+
+    table { width: 100%; border-collapse: collapse; background: #fff; min-width: 980px; }
+    th, td { text-align: left; padding: 16px 18px; border-bottom: 1px solid var(--line); vertical-align: top; }
+    th { font-size: 13px; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); background: var(--soft); }
+    tr:last-child td { border-bottom: 0; }
+
+    .tag {
+      display: inline-flex;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: var(--soft);
+      border: 1px solid var(--line);
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .bar {
+      width: 100%;
+      height: 8px;
+      background: var(--soft);
+      border-radius: 999px;
+      border: 1px solid var(--line);
+      overflow: hidden;
+      margin-top: 10px;
+    }
+
+    .bar span { display: block; height: 100%; background: var(--text); border-radius: 999px; }
+
+    .callout {
+      border-left: 3px solid var(--accent);
+      padding: 22px 26px;
+      background: var(--soft);
+      border-radius: 0 18px 18px 0;
+      color: #2b3441;
+      font-size: 18px;
+      margin-top: 18px;
+    }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+    .code {
+      background: #0f172a;
+      color: #e5e7eb;
+      border-radius: 18px;
+      padding: 22px;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    .contribute { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; align-items: stretch; }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 22px;
+      padding: 12px 16px;
+      border: 1px solid var(--text);
+      border-radius: 999px;
+      font-weight: 650;
+      font-size: 14px;
+    }
+
+    footer { padding: 42px 0; color: var(--muted); font-size: 14px; }
+
+    @media (max-width: 980px) {
+      .links { display: none; }
+      .hero-grid, .section-head, .split, .contribute { grid-template-columns: 1fr; }
+      .metrics, .result-cards, .score-grid { grid-template-columns: 1fr; }
+      .hero { padding-top: 62px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header data-agentic-role="navigation" data-agentic-entity="site.header" data-agentic-purpose="primary-navigation">
+    <div class="shell nav">
+      <a class="brand" href="#top" data-agentic-role="action" data-agentic-action="navigate-home" data-agentic-flow="flow.review-benchmarks" data-agentic-step="1">
+        <span class="mark">AHP</span>
+        <span>Benchmark Suite</span>
+      </a>
+      <nav class="links" aria-label="Primary">
+        <a href="#scores" data-agentic-role="link" data-agentic-action="navigate-to-scores">Puntuaciones</a>
+        <a href="#results" data-agentic-role="link" data-agentic-action="navigate-to-results">Resultados</a>
+        <a href="#metrics" data-agentic-role="link" data-agentic-action="navigate-to-metrics">Métricas</a>
+        <a href="#methodology" data-agentic-role="link" data-agentic-action="navigate-to-methodology">Metodología</a>
+        <a href="#contribute" data-agentic-role="link" data-agentic-action="navigate-to-contribute">Contribuir</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" data-agentic-role="main" data-agentic-entity="benchmark.home" data-agentic-purpose="benchmark-publication-page">
+    <section class="hero" data-agentic-role="section" data-agentic-entity="benchmark.hero" data-agentic-purpose="introduce-experimental-suite">
+      <div class="shell">
+        <span class="eyebrow" data-agentic-role="status" data-agentic-entity="benchmark.status" data-agentic-state="experimental">
+          <span class="dot"></span>
+          Experimental research phase · AHP v0.2
+        </span>
+
+        <h1>Resultados medibles de navegación agentic.</h1>
+
+        <p class="lead">
+          AHP Benchmark Suite convierte tus pruebas en métricas visibles: porcentajes de mejora,
+          puntuaciones experimentales, resultados por benchmark y cambios conceptuales observados
+          en el comportamiento de agentes autónomos.
+        </p>
+
+        <div class="hero-grid">
+          <div class="panel" data-agentic-role="article" data-agentic-entity="benchmark.thesis" data-agentic-purpose="explain-core-thesis">
+            <h2>La evidencia actual no es perfecta, pero ya es medible.</h2>
+            <p class="section-copy">
+              Las pruebas disponibles permiten cuantificar mejoras direccionales en tiempo, pasos, finalización,
+              continuidad, reducción heurística y evitación de acciones peligrosas. Donde no hay trazas instrumentadas,
+              se declara el nivel de evidencia como estimado o cualitativo.
+            </p>
+          </div>
+
+          <aside class="panel status" data-agentic-role="aside" data-agentic-entity="benchmark.disclaimer" data-agentic-policy="experimental-results-not-final">
+            <div><strong>Estado:</strong> investigación temprana.</div>
+            <div><strong>Validez:</strong> resultados exploratorios, no definitivos.</div>
+            <div><strong>Base actual:</strong> Prueba 1, Prueba 2 y Prueba ObraLink AHP v0.2.</div>
+            <div><strong>Próximo paso:</strong> trazas instrumentadas para v0.3.</div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="scores" data-agentic-role="section" data-agentic-entity="benchmark.numeric-scores" data-agentic-priority="critical" data-agentic-purpose="show-numeric-benchmark-scores">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Benchmark scores</div>
+            <h2>Puntuaciones experimentales actuales.</h2>
+          </div>
+          <p class="section-copy">
+            Estas puntuaciones se calculan con las mediciones disponibles. No son un estándar final:
+            son una primera normalización pública para mostrar qué mejoró, cuánto mejoró y qué sigue siendo experimental.
+          </p>
+        </div>
+
+        <div class="score-grid">
+          <article class="score-card" data-agentic-role="score" data-agentic-entity="score.time-improvement" data-agentic-purpose="display-time-improvement">
+            <span class="label">Prueba 1 · Tiempo</span>
+            <span class="big-number green">18.2%</span>
+            <p>Mejora estimada usando puntos medios: 11 min normal → 9 min con AHP.</p>
+            <div class="bar"><span style="width:18.2%"></span></div>
+          </article>
+
+          <article class="score-card" data-agentic-role="score" data-agentic-entity="score.step-reduction" data-agentic-purpose="display-step-reduction">
+            <span class="label">Prueba 1 · Pasos</span>
+            <span class="big-number green">20%</span>
+            <p>Reducción estimada de pasos: ~20 pasos normal → ~16 con AHP.</p>
+            <div class="bar"><span style="width:20%"></span></div>
+          </article>
+
+          <article class="score-card" data-agentic-role="score" data-agentic-entity="score.qwen-reduction" data-agentic-purpose="display-qwen-estimated-reduction">
+            <span class="label">Prueba 2 · Qwen</span>
+            <span class="big-number green">37.1%</span>
+            <p>Reducción estimada de pasos usando punto medio: 17.5 → 11.</p>
+            <div class="bar"><span style="width:37.1%"></span></div>
+          </article>
+
+          <article class="score-card" data-agentic-role="score" data-agentic-entity="score.task-completion" data-agentic-purpose="display-completion-rate">
+            <span class="label">OTCR · Finalización</span>
+            <span class="big-number green">100%</span>
+            <p>Las pruebas documentadas llegaron al criterio final operativo.</p>
+            <div class="bar"><span style="width:100%"></span></div>
+          </article>
+        </div>
+
+        <div class="score-grid">
+          <article class="score-card" data-agentic-role="score" data-agentic-entity="score.v02-actions" data-agentic-purpose="display-v02-actions">
+            <span class="label">Prueba 3 · Acciones</span>
+            <span class="big-number amber">56</span>
+            <p>Acciones aproximadas en ObraLink AHP v0.2, muchas agrupadas mediante batching.</p>
+          </article>
+
+          <article class="score-card" data-agentic-role="score" data-agentic-entity="score.v02-scrolls" data-agentic-purpose="display-v02-scrolls">
+            <span class="label">Prueba 3 · Scrolls</span>
+            <span class="big-number green">2</span>
+            <p>Desplazamientos totales usados para completar cabecera, partidas y generación.</p>
+          </article>
+
+          <article class="score-card" data-agentic-role="score" data-agentic-entity="score.v02-retries" data-agentic-purpose="display-v02-retries">
+            <span class="label">Prueba 3 · Reintentos</span>
+            <span class="big-number amber">4</span>
+            <p>Reintentos menores, principalmente por targeting/foco en campos numéricos.</p>
+          </article>
+
+          <article class="score-card" data-agentic-role="score" data-agentic-entity="score.v02-errors" data-agentic-purpose="display-v02-fatal-errors">
+            <span class="label">Prueba 3 · Errores fatales</span>
+            <span class="big-number green">0</span>
+            <p>No hubo fallo irreversible; el flujo se completó correctamente.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="results" data-agentic-role="section" data-agentic-entity="benchmark.experimental-results" data-agentic-priority="critical" data-agentic-purpose="show-observed-test-results">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Experimental results</div>
+            <h2>Resultados numéricos y conceptuales por prueba.</h2>
+          </div>
+          <p class="section-copy">
+            La tabla separa mediciones, estimaciones y observaciones conceptuales. Esto permite mostrar resultados reales sin exagerar la evidencia disponible.
+          </p>
+        </div>
+
+        <div class="result-cards">
+          <article class="result-card" data-agentic-role="card" data-agentic-entity="result.test1" data-agentic-purpose="summarize-test-one">
+            <span class="label">Prueba 1 · ObraLink base vs AHP v0.1</span>
+            <h3>AHP redujo tiempo y pasos.</h3>
+            <p>Resultado direccional: 10–12 min normal frente a 8–10 min AHP; ~20 pasos frente a ~16.</p>
+            <ul class="mini-list">
+              <li><strong>Tiempo:</strong> −18.2% aprox.</li>
+              <li><strong>Pasos:</strong> −20% aprox.</li>
+              <li><strong>Cambio:</strong> más planificación previa.</li>
+            </ul>
+          </article>
+
+          <article class="result-card" data-agentic-role="card" data-agentic-entity="result.test2" data-agentic-purpose="summarize-test-two">
+            <span class="label">Prueba 2 · Qwen Desktop</span>
+            <h3>AHP redujo ambigüedad de interfaz.</h3>
+            <p>Resultado cualitativo con estimación de pasos: 15–20 sin AHP frente a 10–12 con AHP.</p>
+            <ul class="mini-list">
+              <li><strong>Pasos estimados:</strong> −37.1% aprox.</li>
+              <li><strong>HDI:</strong> reducción cualitativa.</li>
+              <li><strong>Cambio:</strong> mejor lectura de flujo.</li>
+            </ul>
+          </article>
+
+          <article class="result-card" data-agentic-role="card" data-agentic-entity="result.test3" data-agentic-purpose="summarize-test-three">
+            <span class="label">Prueba 3 · ObraLink AHP v0.2</span>
+            <h3>AHP-SKILL mejoró control operacional.</h3>
+            <p>Resultado observado: ~15 min, ~56 acciones, 2 scrolls, 4 reintentos menores, 0 errores fatales.</p>
+            <ul class="mini-list">
+              <li><strong>OTCR:</strong> 100%</li>
+              <li><strong>DAA:</strong> 100% observado</li>
+              <li><strong>Cambio:</strong> batching + reanalysis on failure.</li>
+            </ul>
+          </article>
+        </div>
+
+        <div class="table-wrap">
+          <table data-agentic-role="table" data-agentic-entity="table.experimental-results" data-agentic-purpose="compare-observed-ahp-tests">
+            <thead>
+              <tr>
+                <th>Prueba</th>
+                <th>Condición</th>
+                <th>Tiempo</th>
+                <th>Acciones / pasos</th>
+                <th>% mejora calculable</th>
+                <th>OTCR</th>
+                <th>Errores</th>
+                <th>Resultado conceptual</th>
+                <th>Nivel de evidencia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Prueba 1</strong><br>ObraLink</td>
+                <td>Web normal</td>
+                <td>10–12 min<br><span class="tag">punto medio: 11</span></td>
+                <td>~20 pasos</td>
+                <td>Baseline</td>
+                <td>100%</td>
+                <td>Ambigüedades leves</td>
+                <td>Mayor exploración visual, navegación más reactiva.</td>
+                <td><span class="tag">autorreportado</span></td>
+              </tr>
+              <tr>
+                <td><strong>Prueba 1</strong><br>ObraLink</td>
+                <td>AHP v0.1</td>
+                <td>8–10 min<br><span class="tag">punto medio: 9</span></td>
+                <td>~16 pasos</td>
+                <td><strong>−18.2% tiempo</strong><br><strong>−20% pasos</strong></td>
+                <td>100%</td>
+                <td>Menores</td>
+                <td>Planificación previa, reducción de incertidumbre estructural.</td>
+                <td><span class="tag">autorreportado</span></td>
+              </tr>
+              <tr>
+                <td><strong>Prueba 2</strong><br>Qwen Desktop</td>
+                <td>Sin AHP → con AHP</td>
+                <td>No cuantificado</td>
+                <td>15–20 → 10–12<br><span class="tag">midpoint: 17.5 → 11</span></td>
+                <td><strong>−37.1% pasos estimados</strong></td>
+                <td>No medido</td>
+                <td>Ambigüedad reducida</td>
+                <td>AHP clarificó intención de botones, flujo y campos.</td>
+                <td><span class="tag">cualitativo estimado</span></td>
+              </tr>
+              <tr>
+                <td><strong>Prueba 3</strong><br>ObraLink</td>
+                <td>AHP v0.2 + AHP-SKILL.md</td>
+                <td>~15 min</td>
+                <td>~56 acciones agrupadas</td>
+                <td>No comparable directo con baseline<br><span class="tag">tarea distinta / 5 partidas</span></td>
+                <td>100%</td>
+                <td>0 fatales<br>4 reintentos menores</td>
+                <td>Mayor continuidad operacional, batching, avoidance de Enter, reanálisis localizado.</td>
+                <td><span class="tag">observado operacional</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="callout" data-agentic-role="note" data-agentic-entity="result.interpretation" data-agentic-purpose="interpret-results-carefully">
+          Lectura técnica: el resultado más fuerte no es solo la reducción de tiempo o pasos. Es el cambio de patrón:
+          con AHP el agente planifica antes, agrupa acciones, reduce incertidumbre, evita acciones peligrosas y reanaliza solo ante fallos concretos.
+        </div>
+      </div>
+    </section>
+
+    <section id="benchmark-results" data-agentic-role="section" data-agentic-entity="benchmark.per-metric-results" data-agentic-purpose="map-metrics-to-results">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Per-metric reading</div>
+            <h2>Resultados por benchmark del protocolo.</h2>
+          </div>
+          <p class="section-copy">
+            Esta tabla traduce las pruebas a puntuaciones de benchmark. Algunas métricas todavía son cualitativas porque no existen trazas instrumentadas suficientes.
+          </p>
+        </div>
+
+        <div class="table-wrap">
+          <table data-agentic-role="table" data-agentic-entity="table.per-metric-results" data-agentic-purpose="benchmark-scores-by-metric">
+            <thead>
+              <tr>
+                <th>Benchmark</th>
+                <th>Puntuación / resultado actual</th>
+                <th>Cálculo o base</th>
+                <th>Interpretación</th>
+                <th>Confianza</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>OTCR</strong><br>Operational Task Completion Rate</td>
+                <td><strong>100%</strong></td>
+                <td>Pruebas documentadas completaron la tarea objetivo.</td>
+                <td>AHP no bloqueó la finalización; permitió llegar al estado final esperado.</td>
+                <td><span class="tag">alta en estas pruebas</span></td>
+              </tr>
+              <tr>
+                <td><strong>OSG</strong><br>Operational Semantic Gain</td>
+                <td><strong>+18.2% tiempo</strong><br><strong>+20% pasos</strong></td>
+                <td>Prueba 1: baseline 11 min / 20 pasos vs AHP 9 min / 16 pasos.</td>
+                <td>Ganancia operacional inicial atribuible a la capa semántica.</td>
+                <td><span class="tag">media</span></td>
+              </tr>
+              <tr>
+                <td><strong>HDI</strong><br>Heuristic Dependency Index</td>
+                <td><strong>Reducción cualitativa fuerte</strong></td>
+                <td>Menos exploración visual, menos deducción de estructura, mejor lectura de flujo.</td>
+                <td>El agente dependió menos de adivinar la UI.</td>
+                <td><span class="tag">cualitativa</span></td>
+              </tr>
+              <tr>
+                <td><strong>SNE</strong><br>Semantic Navigation Efficiency</td>
+                <td><strong>80%</strong> en Prueba 1 AHP</td>
+                <td>16 acciones AHP / 20 baseline = 0.8 del coste original.</td>
+                <td>La tarea requirió menos pasos relativos que la web normal.</td>
+                <td><span class="tag">media</span></td>
+              </tr>
+              <tr>
+                <td><strong>RFR</strong><br>Reanalysis Frequency Ratio</td>
+                <td><strong>4 reintentos</strong> en v0.2</td>
+                <td>Reintentos menores sobre ~56 acciones: ~7.1% de incidencia.</td>
+                <td>Persisten problemas de targeting/foco, pero no rompieron el flujo.</td>
+                <td><span class="tag">media</span></td>
+              </tr>
+              <tr>
+                <td><strong>OCS</strong><br>Operational Continuity Score</td>
+                <td><strong>Alto</strong></td>
+                <td>La ejecución mantuvo cabecera → partidas → generar → verificar.</td>
+                <td>La continuidad operacional se mantuvo incluso con ajustes menores.</td>
+                <td><span class="tag">cualitativa alta</span></td>
+              </tr>
+              <tr>
+                <td><strong>CPD</strong><br>Cognitive Pause Density</td>
+                <td><strong>Baja</strong> en v0.2</td>
+                <td>Pausas descritas como mínimas durante ejecución agrupada.</td>
+                <td>El agente mostró menos detenciones cognitivas visibles.</td>
+                <td><span class="tag">cualitativa</span></td>
+              </tr>
+              <tr>
+                <td><strong>IDS</strong><br>Interaction Determinism Score</td>
+                <td><strong>Alto</strong></td>
+                <td>Secuencia más lineal y predecible tras análisis AHP.</td>
+                <td>El protocolo empujó una trayectoria menos errática.</td>
+                <td><span class="tag">cualitativa alta</span></td>
+              </tr>
+              <tr>
+                <td><strong>DAA</strong><br>Dangerous Action Avoidance</td>
+                <td><strong>100%</strong> observado</td>
+                <td>No se usó Enter para enviar prematuramente; se evitó acción peligrosa conocida.</td>
+                <td>AHP-SKILL.md tuvo impacto operacional directo.</td>
+                <td><span class="tag">alta en v0.2</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section id="metrics" data-agentic-role="section" data-agentic-entity="benchmark.metrics" data-agentic-purpose="list-core-benchmark-metrics">
+      <div class="shell">
+        <div class="section-head">
+          <div>
+            <div class="kicker">Core metrics</div>
+            <h2>Definiciones de métricas.</h2>
+          </div>
+          <p class="section-copy">
+            Las definiciones permiten repetir el benchmark con más agentes, más tareas y más interfaces.
+          </p>
+        </div>
+
+        <div class="metrics">
+          <article class="metric" data-agentic-role="card" data-agentic-entity="metric.otcr" data-agentic-purpose="define-task-completion">
+            <span class="id">OTCR</span><h3>Operational Task Completion Rate</h3>
+            <p>Porcentaje de tareas completadas correctamente hasta el criterio final definido.</p>
+            <div class="formula">OTCR = completed_tasks / total_tasks</div>
+          </article>
+          <article class="metric" data-agentic-role="card" data-agentic-entity="metric.hdi" data-agentic-priority="critical" data-agentic-purpose="define-heuristic-dependency">
+            <span class="id">HDI</span><h3>Heuristic Dependency Index</h3>
+            <p>Mide cuánto depende el agente de exploración visual, prueba/error, scrolls exploratorios y relecturas.</p>
+            <div class="formula">HDI = f(rescans, retries, exploratory_clicks, pauses)</div>
+          </article>
+          <article class="metric" data-agentic-role="card" data-agentic-entity="metric.ocs" data-agentic-purpose="define-operational-continuity">
+            <span class="id">OCS</span><h3>Operational Continuity Score</h3>
+            <p>Evalúa si el agente mantiene un flujo continuo sin romper contexto ni saltar a zonas irrelevantes.</p>
+            <div class="formula">OCS ↑ = fewer interruptions + stable flow</div>
+          </article>
+          <article class="metric" data-agentic-role="card" data-agentic-entity="metric.sne" data-agentic-purpose="define-semantic-navigation-efficiency">
+            <span class="id">SNE</span><h3>Semantic Navigation Efficiency</h3>
+            <p>Relación entre acciones útiles y acciones totales durante la ejecución.</p>
+            <div class="formula">SNE = useful_actions / total_actions</div>
+          </article>
+          <article class="metric" data-agentic-role="card" data-agentic-entity="metric.rfr" data-agentic-purpose="define-reanalysis-frequency">
+            <span class="id">RFR</span><h3>Reanalysis Frequency Ratio</h3>
+            <p>Frecuencia con la que el agente debe detenerse para reinterpretar la interfaz o reconstruir el plan.</p>
+            <div class="formula">RFR = reanalysis_events / task_steps</div>
+          </article>
+          <article class="metric" data-agentic-role="card" data-agentic-entity="metric.cpd" data-agentic-purpose="define-cognitive-pause-density">
+            <span class="id">CPD</span><h3>Cognitive Pause Density</h3>
+            <p>Densidad de pausas, indecisión operacional y ciclos de espera cognitiva durante la tarea.</p>
+            <div class="formula">CPD = pause_time / execution_time</div>
+          </article>
+          <article class="metric" data-agentic-role="card" data-agentic-entity="metric.ids" data-agentic-purpose="define-interaction-determinism">
+            <span class="id">IDS</span><h3>Interaction Determinism Score</h3>
+            <p>Mide si la trayectoria del agente es lineal, predecible y repetible entre ejecuciones.</p>
+            <div class="formula">IDS ↑ = low variance across runs</div>
+          </article>
+          <article class="metric" data-agentic-role="card" data-agentic-entity="metric.osg" data-agentic-priority="critical" data-agentic-purpose="define-operational-semantic-gain">
+            <span class="id">OSG</span><h3>Operational Semantic Gain</h3>
+            <p>Diferencia operacional atribuible a la semántica AHP frente a una versión sin AHP.</p>
+            <div class="formula">OSG = performance_AHP - performance_baseline</div>
+          </article>
+          <article class="metric" data-agentic-role="card" data-agentic-entity="metric.daa" data-agentic-purpose="define-dangerous-action-avoidance">
+            <span class="id">DAA</span><h3>Dangerous Action Avoidance</h3>
+            <p>Capacidad del agente de evitar teclas, clics o flujos que puedan enviar, borrar o modificar datos prematuramente.</p>
+            <div class="formula">DAA = avoided_risky_actions / risky_action_opportunities</div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="methodology" data-agentic-role="section" data-agentic-entity="benchmark.methodology" data-agentic-purpose="explain-reproducible-methodology">
+      <div class="shell">
+        <div class="section-head">
+          <div><div class="kicker">Methodology</div><h2>Cómo ejecutar una prueba AHP.</h2></div>
+          <p class="section-copy">Cada benchmark debería comparar la misma tarea en dos condiciones: interfaz tradicional y versión enriquecida con AHP. La diferencia observable se atribuye de forma prudente al soporte semántico-operacional.</p>
+        </div>
+        <div class="split">
+          <div class="panel" data-agentic-role="article" data-agentic-entity="methodology.protocol" data-agentic-purpose="reproducible-test-steps">
+            <h3>Protocolo mínimo</h3>
+            <ol>
+              <li>Definir una tarea real con criterio de éxito verificable.</li>
+              <li>Ejecutarla en una versión sin AHP.</li>
+              <li>Ejecutarla en una versión con AHP v0.2.</li>
+              <li>Registrar tiempo, acciones, scrolls, reintentos y errores.</li>
+              <li>Registrar reanálisis, pausas cognitivas y dependencia heurística.</li>
+              <li>Comparar resultados con interpretación prudente.</li>
+            </ol>
+          </div>
+          <div class="panel" data-agentic-role="article" data-agentic-entity="methodology.warning" data-agentic-policy="experimental-caution">
+            <h3>Advertencia científica</h3>
+            <p>AHP Benchmark Suite está en fase experimental. Los resultados iniciales son útiles para observar tendencias, pero todavía requieren más agentes, más interfaces, más tareas y trazas instrumentadas antes de reclamar validez estadística fuerte.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contribute" data-agentic-role="section" data-agentic-entity="benchmark.contribution" data-agentic-purpose="invite-community-contributions">
+      <div class="shell contribute">
+        <div><div class="kicker">Open research</div><h2>Los benchmarks adicionales son valiosos.</h2></div>
+        <div class="panel" data-agentic-role="form-placeholder" data-agentic-entity="contribution.instructions" data-agentic-purpose="explain-how-to-contribute">
+          <p class="section-copy">Si pruebas AHP en otra interfaz, agente o tarea, registra tus resultados. Incluso los fallos son útiles: ayudan a detectar qué semántica operacional falta, qué zonas de interacción fallan y qué métricas deben mejorar.</p>
+          <div class="callout">Recomendamos compartir: URL de prueba, tarea, agente usado, tiempo, acciones, scrolls, reintentos, errores, capturas, trazas y observaciones sobre incertidumbre.</div>
+          <a class="button" href="mailto:arturcreativegroup@gmail.com?subject=AHP%20Benchmark%20Contribution" data-agentic-role="action" data-agentic-action="submit-benchmark-contribution" data-agentic-policy="requires-human-confirmation">Enviar benchmark experimental</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer data-agentic-role="contentinfo" data-agentic-entity="site.footer" data-agentic-purpose="project-footer">
+    <div class="shell">AHP Benchmark Suite · Experimental numeric results · Human-first, agent-ready web interfaces.</div>
+  </footer>
+</body>
+</html>
